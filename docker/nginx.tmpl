@@ -1,8 +1,13 @@
 worker_processes 1;
+daemon off;
+pid /tmp/nginx.pid;
+error_log /dev/stdout info;
+
 events {
     worker_connections 1024;
 }
 http {
+    access_log /dev/stdout;
     upstream otrecorder {
         server ${SERVER_HOST}:${SERVER_PORT};
     }
@@ -22,7 +27,7 @@ http {
             include /etc/nginx/mime.types;
             try_files $uri $uri/index.html;
         }
-        
+
         gzip on;
         gzip_vary on;
         gzip_proxied any;
